@@ -82,14 +82,13 @@ function profileActivation(profile, reason) {
   //  else if profile.active is true, checick if profile.reason exists
   //  if profile.reason doesnt exists then return "confirm status manually"
   
-  true 
-    if ('reason' in profile && profile.reason !== '') {
-      profile.active = true;
-      delete profile.reason;
-    } else {
-      return "confirm status manually";
-    }
-  }
+  
+   if (profile.active) { if (!reason) { return "confirm status manually"; }
+profile.active = false; profile.reason = reason; } else { if ('reason' in
+profile && profile.reason) { profile.active = true; delete profile.reason; }
+else { return "confirm status manually"; } } return profile;
+}
+
   
 
           
@@ -107,9 +106,17 @@ function profileActivation(profile, reason) {
       // 🌟 HINT: to confirm the existence of a prop, check that its value is not undefined
     
     // 👉 CHALLENGE 2
-    function mineSweeper( grid, x, y ) {
+    function mineSweeper(grid, x, y) { 
+       if (x <1 || x > 3 || y < 1 || y > 3) { return "invalid coordinates"; } 
       
-      
+         x -= 1; y -= 1; 
+         let square = grid[y][x]; // Note the switch of x and y here // Check the color of the square and return the appropriate result 
+         if (square === "🟥") 
+         { return "🟥 💀"; } else if 
+         (square === "🟦") 
+         { return "🟦 🥳"; } else { return "Unknown square color."; } }
+       
+
 
       
 
@@ -132,10 +139,25 @@ function profileActivation(profile, reason) {
       //    * If the player lands on blue, return the string "🟦 🥳"
       // 🧠 Edge cases:
       //    * If the x or y coordinates are under 1 or over 3, return the string "invalid coordinates"
-    }
+    
 
     // 👉 CHALLENGE 3
-    function booleanize( ) {
+ function booleanize(obj) {
+        for (let prop in obj) {
+          if (prop.length > 9) {
+            return "shorten all prop names to 9 chars or less";
+          }
+          if (obj[prop] === 0) {
+            obj[prop] = false;
+          } else if (obj[prop] === 1) {
+            obj[prop] = true;
+          } else if (obj[prop] === null) {
+            delete obj[prop];
+          }
+        }
+        return obj;
+      }
+      
       
       // 🧠 booleanize takes an object as its single argument, which can have any number of properties
       // Loop over the properties and then return the object, after applying the following transformations:
@@ -145,10 +167,20 @@ function profileActivation(profile, reason) {
       // 🧠 Edge cases:
       //    * If a property name exceeds 9 characters, return the string "shorten all prop names to 9 chars or less"
       // 🌟 HINT: careful not to perform any unintended changes on the object
-    }
+    
 
     // 👉 CHALLENGE 4
-    function scrub() {
+ function scrub(text, forbidden) {
+        let scrubbedText = text;
+        
+        for (let word of forbidden) {
+          const regex = new RegExp("\\b" + word + "\\b", "gi");
+          scrubbedText = scrubbedText.replace(regex, "x".repeat(word.length));
+        }
+        
+        return scrubbedText;
+      }
+      
       
 
 
@@ -164,10 +196,21 @@ function profileActivation(profile, reason) {
       //    scrub("aces high", ["high", "aces", "hearts"]) // returns "xxxx xxxx"
       //    scrub("", ["high", "aces""]) // returns ""
       // 🌟 HINT: useful array methods to use are `push`, `indexOf`, `split`, `join`
-    }
+    
 
     // 👉 CHALLENGE 5
-    function normalizePhoneNumber() {
+    function normalizePhoneNumber(number)
+     { if (number.length !== 10) { return "type a 10-digit number"; } 
+     for (let i = 0; i < number.length; i++) { if
+(isNaN(parseInt(number[i]))) { return "invalid phone number"; } } let
+normalizedNumber = "(XXX) XXX-XXXX"; let digitIndex = 0; for (let i = 0; i <
+normalizedNumber.length; i++) { 
+  if (normalizedNumber[i] === "X") { normalizedNumber = normalizedNumber.slice(0, i)
++ number[digitIndex] + normalizedNumber.slice(i + 1); digitIndex++; } }
+ return normalizedNumber; } 
+
+
+      
       
 
       // 🧠 normalizePhoneNumber takes a string as its only argument, representing a ten-digit number
@@ -181,7 +224,7 @@ function profileActivation(profile, reason) {
       // 🌟 HINT: instead of looping over the number's digits, loop backwards over a template "(XXX) XXX-XXXX"
       // 🌟 HINT: at each iteration, if the current character is an "X", replace it with the result of popping a digit from the number
       // 🌟 HINT: if you'd rather loop forwards, use `shift` instead of `pop`
-    }
+    
 
     // 👉 CHALLENGE 6 (bonus, NOT graded)
     function diceRolls() {
